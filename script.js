@@ -815,28 +815,6 @@ if (taglineWordEl) {
   }, 2200);
 }
 
-// Hide button: switch to educational facade and back
-const hideBtn = document.getElementById("hide-btn");
-const shellTitle = document.getElementById("shell-title");
-const contentEdu = document.getElementById("content-edu");
-
-if (hideBtn && shellTitle && contentEdu) {
-  hideBtn.addEventListener("click", () => {
-    const isEdu = document.body.classList.toggle("mode-edu");
-    if (isEdu) {
-      hideBtn.textContent = "Show";
-      hideBtn.setAttribute("aria-label", "Show games");
-      shellTitle.textContent = "Study Resources";
-      contentEdu.setAttribute("aria-hidden", "false");
-    } else {
-      hideBtn.textContent = "Hide";
-      hideBtn.setAttribute("aria-label", "Toggle view");
-      shellTitle.textContent = "Mini Browser";
-      contentEdu.setAttribute("aria-hidden", "true");
-    }
-  });
-}
-
 // Settings: theme & layout (persisted in localStorage)
 const SETTINGS_KEY = "phantom-learning-settings";
 

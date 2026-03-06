@@ -37,15 +37,8 @@ body.theme-light .game-button { background: linear-gradient(135deg, rgba(255,255
 body.theme-light .game-button:hover { border-color: var(--accent); }
 body.theme-light .settings-btn { color: #64748b; border-color: rgba(148, 163, 184, 0.6); }
 body.theme-light .settings-btn:hover { color: #1e293b; background: rgba(226, 232, 240, 0.8); }
-body.theme-light .hide-btn { color: #64748b; background: rgba(248, 250, 252, 0.95); border-color: rgba(148, 163, 184, 0.6); }
-body.theme-light .hide-btn:hover { color: #1e293b; background: #f1f5f9; }
 body.theme-light .title-phantom { filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.25)); }
 body.theme-light .tagline-word { filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.3)); }
-body.theme-light .edu-card { background: rgba(241, 245, 249, 0.7); border-color: rgba(148, 163, 184, 0.4); }
-body.theme-light .edu-card-title { color: #1e293b; }
-body.theme-light .edu-text, body.theme-light .edu-list { color: #475569; }
-body.theme-light .edu-tab { color: #64748b; background: rgba(226, 232, 240, 0.8); }
-body.theme-light .edu-tab.active { color: #1e293b; background: rgba(59, 130, 246, 0.2); border-color: rgba(59, 130, 246, 0.5); }
 
 /* Theme: Blue */
 body.theme-blue {
@@ -506,130 +499,6 @@ kbd {
   color: rgba(229, 231, 235, 0.95);
 }
 
-/* Hide button at edge */
-.hide-btn {
-  position: fixed;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  z-index: 100;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  padding: 12px 8px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #94a3b8;
-  background: rgba(15, 23, 42, 0.9);
-  border: 1px solid rgba(71, 85, 105, 0.8);
-  border-right: none;
-  border-radius: 10px 0 0 10px;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, right 0.25s ease;
-  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.3);
-}
-
-.hide-btn:hover {
-  color: #e2e8f0;
-  background: rgba(30, 41, 59, 0.95);
-}
-
-body.mode-edu .hide-btn {
-  right: 0;
-  color: #64748b;
-}
-
-/* Educational facade */
-.content-edu {
-  display: none;
-  padding: 28px 26px 32px;
-}
-
-body.mode-edu .content-games {
-  display: none;
-}
-
-body.mode-edu .content-edu {
-  display: block;
-}
-
-body.mode-edu .shell-title {
-  color: rgba(148, 163, 184, 0.95);
-}
-
-.edu-main-title {
-  margin: 0 0 4px;
-  font-size: clamp(22px, 2.6vw, 28px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: #e2e8f0;
-}
-
-.edu-subtitle {
-  margin: 0 0 20px;
-  font-size: 13px;
-  color: #94a3b8;
-}
-
-.edu-tabs {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 20px;
-}
-
-.edu-tab {
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #94a3b8;
-  background: rgba(30, 41, 59, 0.8);
-  border: 1px solid rgba(71, 85, 105, 0.6);
-  border-radius: 8px;
-  cursor: default;
-  transition: color 0.2s, background 0.2s, border-color 0.2s;
-}
-
-.edu-tab.active {
-  color: #e2e8f0;
-  background: rgba(59, 130, 246, 0.25);
-  border-color: rgba(96, 165, 250, 0.5);
-}
-
-.edu-card {
-  margin-bottom: 16px;
-  padding: 16px 18px;
-  background: rgba(30, 41, 59, 0.6);
-  border: 1px solid rgba(71, 85, 105, 0.5);
-  border-radius: 12px;
-}
-
-.edu-card-title {
-  margin: 0 0 10px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #e2e8f0;
-}
-
-.edu-text {
-  margin: 0 0 8px;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #cbd5e1;
-}
-
-.edu-text:last-child {
-  margin-bottom: 0;
-}
-
-.edu-list {
-  margin: 0;
-  padding-left: 20px;
-  font-size: 14px;
-  line-height: 1.7;
-  color: #cbd5e1;
-}
-
 @media (max-width: 640px) {
   main.shell {
     width: 100%;
@@ -640,17 +509,8 @@ body.mode-edu .shell-title {
     padding: 22px 18px 20px;
   }
 
-  .content-edu {
-    padding: 20px 18px 24px;
-  }
-
   .games-grid {
     grid-template-columns: 1fr;
-  }
-
-  .hide-btn {
-    padding: 10px 6px;
-    font-size: 11px;
   }
 }
 
