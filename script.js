@@ -1,71 +1,25 @@
-// ——— Loading screen → Loading → Google login → Connected → Website ———
+// ——— Loading screen → Loading → Connected → Website ———
 (function loadingSequence() {
   var screen = document.getElementById("loading-screen");
   var loadingPhase = document.getElementById("loading-phase");
   var connectedPhase = document.getElementById("connected-phase");
-  var loginPhase = document.getElementById("google-login-phase");
-  if (!screen || !loadingPhase || !connectedPhase || !loginPhase) return;
+  if (!screen || !loadingPhase || !connectedPhase) return;
 
-  // Initial state: show loading, hide login & connected
-  loadingPhase.hidden = false;
-  loginPhase.hidden = true;
   connectedPhase.hidden = true;
 
-  // After loading, show Google sign-in
   setTimeout(function () {
     loadingPhase.classList.add("loading-fade-out");
   }, 2200);
 
   setTimeout(function () {
     loadingPhase.hidden = true;
-    loginPhase.hidden = false;
-  }, 2700);
-
-  // Expose a callback for Google sign-in success to continue the sequence
-  window.__phantomOnGoogleLoginSuccess = function () {
-    loginPhase.hidden = true;
     connectedPhase.hidden = false;
     connectedPhase.classList.add("connected-visible");
-    setTimeout(function () {
-      screen.classList.add("loading-done");
-    }, 2200);
-  };
-})();
+  }, 2700);
 
-// ——— Google Sign-In (client-side) ———
-(function initGoogleSignIn() {
-  var loginBtn = document.getElementById("google-login-btn");
-  if (!loginBtn) return;
-
-  // This function will be called by Google's JS when the user signs in.
-  window.handleGoogleCredentialResponse = function (response) {
-    // You should verify response.credential (ID token) on your backend.
-    // After successful verification, continue to the connected screen:
-    if (window.__phantomOnGoogleLoginSuccess) {
-      window.__phantomOnGoogleLoginSuccess(response);
-    }
-  };
-
-  function renderButton() {
-    if (!window.google || !google.accounts || !google.accounts.id) return;
-    google.accounts.id.initialize({
-      client_id: "63209395731-tephp15b5gsdju56ek0cq6of06q7djoj.apps.googleusercontent.com",
-      callback: window.handleGoogleCredentialResponse,
-    });
-    google.accounts.id.renderButton(loginBtn, {
-      type: "standard",
-      theme: "outline",
-      size: "large",
-      shape: "pill",
-      text: "continue_with",
-    });
-  }
-
-  if (window.google && google.accounts && google.accounts.id) {
-    renderButton();
-  } else {
-    window.addEventListener("load", renderButton);
-  }
+  setTimeout(function () {
+    screen.classList.add("loading-done");
+  }, 4700);
 })();
 
 const gameButtons = document.querySelectorAll(".game-button");
