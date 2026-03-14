@@ -5,7 +5,8 @@
  * This file is the only source for block checks.
  */
 window.BLOCKED_EMAILS = [
-  // "blocked@example.com",
+  "jpando31@krhs.net",
+  "kirk.sarah@gmail.com"
 ];
 
 window.isEmailBlocked = function(email) {
