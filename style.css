@@ -364,7 +364,7 @@ body.loading-complete .daily-summary-overlay {
 .policies-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9100;
+  z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -372,7 +372,7 @@ body.loading-complete .daily-summary-overlay {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.35s ease, visibility 0.35s ease, pointer-events 0s 0.35s;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
 }
 
 .policies-overlay.is-open {
@@ -382,15 +382,22 @@ body.loading-complete .daily-summary-overlay {
   transition: opacity 0.35s ease, visibility 0.35s ease;
 }
 
+.policies-overlay.is-open .policies-backdrop,
+.policies-overlay.is-open .policies-modal {
+  pointer-events: auto;
+}
+
 .policies-backdrop {
   position: absolute;
   inset: 0;
   background: rgba(2, 6, 23, 0.78);
   backdrop-filter: blur(8px);
+  cursor: default;
 }
 
 .policies-modal {
   position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 400px;
   padding: 1.75rem 1.5rem;
@@ -400,6 +407,13 @@ body.loading-complete .daily-summary-overlay {
   box-shadow: var(--shadow-strong), 0 0 0 1px rgba(148, 163, 184, 0.08);
   color: var(--text);
   animation: daily-summary-in 0.4s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+  cursor: default;
+}
+
+.policies-modal .policies-btn {
+  pointer-events: auto;
+  position: relative;
+  z-index: 2;
 }
 
 .policies-title {
