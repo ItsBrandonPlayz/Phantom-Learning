@@ -1,8 +1,7 @@
 /**
  * Emails to block from using Phantom Learning.
- * Add one email per line (or keep as array entries).
+ * Add or remove emails anytime; the list is re-loaded on each sign-in.
  * Comparison is case-insensitive.
- * This file is the only source for block checks.
  */
 window.BLOCKED_EMAILS = [
   "jpando31@krhs.net"
