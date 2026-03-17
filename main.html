@@ -15,21 +15,90 @@
     <style>html.block-check-pending { visibility: hidden !important; }</style>
     <script>
       (function() {
-        document.documentElement.classList.add("block-check-pending");
-        var scriptPath = location.pathname.replace(/\/[^/]*$/, "/") + "blocked-emails.js?v=" + Date.now();
-        var s = document.createElement("script");
-        s.src = scriptPath;
-        s.onload = s.onerror = function() {
+        var basePath = location.pathname.replace(/\/[^/]*$/, "/");
+        var blockedUrl = basePath + "blocked.html";
+        var signinUrl = basePath + "index.html";
+        var updating = false;
+
+        function checkBlockAndRedirect() {
           try {
             var email = localStorage.getItem("phantom-user-email") || "";
             if (email && typeof window.isEmailBlocked === "function" && window.isEmailBlocked(email)) {
-              location.replace(location.pathname.replace(/\/[^/]*$/, "/") + "blocked.html");
-              return;
+              location.replace(blockedUrl);
+              return true;
             }
           } catch (e) {}
+          return false;
+        }
+
+        function loadBlockList(done) {
+          var s = document.createElement("script");
+          s.src = basePath + "blocked-emails.js?v=" + Date.now();
+          s.onload = s.onerror = function() {
+            if (checkBlockAndRedirect()) return;
+            if (done) done();
+          };
+          document.head.appendChild(s);
+        }
+
+        function showUpdatingAndGoToSignin() {
+          if (updating) return;
+          updating = true;
+          var screen = document.getElementById("loading-screen");
+          if (screen) {
+            var text = screen.querySelector(".loading-text");
+            if (text) text.textContent = "Updating…";
+            screen.classList.remove("loading-done");
+            document.body.classList.remove("loading-complete");
+            screen.style.opacity = "";
+            screen.style.visibility = "visible";
+          }
+          setTimeout(function() {
+            location.replace(signinUrl);
+          }, 1500);
+        }
+
+        var currentVersion = null;
+        function loadVersion(cb) {
+          var s = document.createElement("script");
+          s.src = basePath + "site-version.js?v=" + Date.now();
+          s.onload = function() {
+            try {
+              if (window.SITE_VERSION && cb) cb(window.SITE_VERSION);
+            } finally {
+              s.parentNode && s.parentNode.removeChild(s);
+            }
+          };
+          s.onerror = function() {
+            s.parentNode && s.parentNode.removeChild(s);
+          };
+          document.head.appendChild(s);
+        }
+
+        document.documentElement.classList.add("block-check-pending");
+        loadBlockList(function() {
           document.documentElement.classList.remove("block-check-pending");
-        };
-        document.head.appendChild(s);
+          // Capture current version, then start polling for updates
+          loadVersion(function(v) {
+            currentVersion = v;
+          });
+          setInterval(function() {
+            if (updating) return;
+            loadVersion(function(v) {
+              if (!currentVersion) {
+                currentVersion = v;
+                return;
+              }
+              if (v && v !== currentVersion) {
+                showUpdatingAndGoToSignin();
+              }
+            });
+            // Also keep block list fresh in case someone is newly blocked
+            loadBlockList();
+          }, 60000);
+        });
+
+        // Safety: never keep the page hidden forever
         setTimeout(function() { document.documentElement.classList.remove("block-check-pending"); }, 3000);
       })();
     </script>
