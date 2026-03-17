@@ -12,6 +12,27 @@
     <title>Phantom Learning</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%234f46e5' rx='6'/><text x='16' y='22' font-size='18' text-anchor='middle' fill='white' font-family='system-ui,sans-serif' font-weight='bold'>P</text></svg>" />
     <link rel="stylesheet" href="style.css" />
+    <style>html.block-check-pending { visibility: hidden !important; }</style>
+    <script>
+      (function() {
+        document.documentElement.classList.add("block-check-pending");
+        var scriptPath = location.pathname.replace(/\/[^/]*$/, "/") + "blocked-emails.js?v=" + Date.now();
+        var s = document.createElement("script");
+        s.src = scriptPath;
+        s.onload = s.onerror = function() {
+          try {
+            var email = localStorage.getItem("phantom-user-email") || "";
+            if (email && typeof window.isEmailBlocked === "function" && window.isEmailBlocked(email)) {
+              location.replace(location.pathname.replace(/\/[^/]*$/, "/") + "blocked.html");
+              return;
+            }
+          } catch (e) {}
+          document.documentElement.classList.remove("block-check-pending");
+        };
+        document.head.appendChild(s);
+        setTimeout(function() { document.documentElement.classList.remove("block-check-pending"); }, 3000);
+      })();
+    </script>
   </head>
   <body class="loading-active">
     <div id="loading-screen" class="loading-screen">
