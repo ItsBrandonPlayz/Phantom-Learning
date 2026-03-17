@@ -8,8 +8,7 @@ window.BLOCKED_EMAILS = [
   "reldred31@krhs.net",
   "chickenbottom31@krhs.net",
   "marcusalleyne20134832@gmail.com",
-  "rmolinet31@krhs.net",
-  "bbyron31@krhs.net"
+  "rmolinet31@krhs.net"
 ];
 
 window.isEmailBlocked = function(email) {
