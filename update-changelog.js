@@ -4,12 +4,22 @@
  * When you deploy: add a key for today and tomorrow (same list).
  */
 window.DAILY_CHANGELOG = {
-  "Tue Mar 17 2025": [
+  "Mon Mar 17 2025": [
     "Update popup shows accurate changes for the day",
     "Site version bumps when files change",
     "Block list and auto-update to sign-in on new version"
   ],
   "Wed Mar 18 2025": [
+    "Update popup shows accurate changes for the day",
+    "Site version bumps when files change",
+    "Block list and auto-update to sign-in on new version"
+  ],
+  "Tue Mar 17 2026": [
+    "Update popup shows accurate changes for the day",
+    "Site version bumps when files change",
+    "Block list and auto-update to sign-in on new version"
+  ],
+  "Wed Mar 18 2026": [
     "Update popup shows accurate changes for the day",
     "Site version bumps when files change",
     "Block list and auto-update to sign-in on new version"
