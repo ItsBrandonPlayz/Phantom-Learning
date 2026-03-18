@@ -56,6 +56,14 @@
               loadingPhase.style.display = "";
               var text = loadingPhase.querySelector(".loading-text");
               if (text) text.textContent = "Updating…";
+              var sub = loadingPhase.querySelector(".loading-subtext");
+              if (!sub) {
+                sub = document.createElement("p");
+                sub.className = "loading-subtext";
+                sub.style.cssText = "margin: 0.45rem 0 0; font-size: 0.9rem; color: rgba(229,231,235,0.8);";
+                loadingPhase.appendChild(sub);
+              }
+              sub.textContent = "Please wait while we update the site…";
             }
             if (connectedPhase) {
               connectedPhase.hidden = true;
@@ -64,7 +72,7 @@
           }
           setTimeout(function() {
             location.replace(signinUrl);
-          }, 2000);
+          }, 5000);
         }
 
         var currentVersion = null;
