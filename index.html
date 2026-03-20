@@ -8,31 +8,54 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body class="signin-page">
+    <div class="fx-stage" aria-hidden="true">
+      <canvas id="fx-canvas" class="fx-canvas"></canvas>
+      <div class="fx-beam"></div>
+      <div class="fx-aurora"></div>
+      <div class="fx-grid"></div>
+      <div class="fx-vignette"></div>
+      <div class="fx-noise"></div>
+    </div>
     <div class="bg-gradient"></div>
-    <div class="signin-wrap">
-      <h1 class="title title-phantom">Phantom Learning</h1>
 
-      <div id="loading" class="loading-state" role="status" aria-live="polite" style="display:block">
-        <div class="signin-loading-text">Loading…</div>
-      </div>
-
-      <div id="error" class="error-state" style="display:none;">
-        <div class="error-title">Oops!</div>
-        <div class="error-message">Something went wrong</div>
-        <div id="error-details" class="error-sub-message"></div>
-      </div>
-
-      <div id="app" class="signin-card" style="display:none">
-        <div id="logged-out" class="action-card">
-          <p class="action-text">Get started by signing in to your account</p>
-          <button id="login-btn" class="button login">Log in</button>
+    <div class="signin-canvas">
+      <div class="signin-glow signin-glow-a" aria-hidden="true"></div>
+      <div class="signin-glow signin-glow-b" aria-hidden="true"></div>
+      <div class="signin-layout">
+        <div class="signin-hero">
+          <div class="signin-hero-orb" aria-hidden="true"></div>
+          <div class="signin-hero-copy">
+            <p class="signin-kicker">Phantom Learning</p>
+            <h1 class="title title-phantom signin-title">Welcome back</h1>
+            <p class="signin-brand-tagline">Sign in with your account to unlock the site.</p>
+          </div>
         </div>
+        <div class="signin-panel">
+          <div class="signin-panel-inner">
+            <div id="loading" class="loading-state" role="status" aria-live="polite" style="display:block">
+              <div class="signin-loading-text">Loading…</div>
+            </div>
 
-        <div id="logged-in" class="logged-in-section" style="display: none;">
-          <div class="logged-in-message">✅ Successfully authenticated!</div>
-          <h2 class="profile-section-title">Your Profile</h2>
-          <div id="profile" class="profile-card"></div>
-          <button id="logout-btn" class="button logout">Log out</button>
+            <div id="error" class="error-state" style="display:none;">
+              <div class="error-title">Oops!</div>
+              <div class="error-message">Something went wrong</div>
+              <div id="error-details" class="error-sub-message"></div>
+            </div>
+
+            <div id="app" class="signin-card" style="display:none">
+              <div id="logged-out" class="action-card">
+                <p class="action-text">Sign in to unlock the site.</p>
+                <button id="login-btn" class="button login">Log in</button>
+              </div>
+
+              <div id="logged-in" class="logged-in-section" style="display: none;">
+                <div class="logged-in-message">✅ Successfully authenticated!</div>
+                <h2 class="profile-section-title">Your Profile</h2>
+                <div id="profile" class="profile-card"></div>
+                <button id="logout-btn" class="button logout">Log out</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -51,6 +74,7 @@
       })();
     </script>
     <script defer src="https://cdn.auth0.com/js/auth0/9.22/auth0.min.js"></script>
+    <script defer src="site-fx.js"></script>
     <script defer src="auth0-app.js"></script>
   </body>
 </html>

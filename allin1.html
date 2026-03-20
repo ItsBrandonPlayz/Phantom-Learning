@@ -2,24 +2,28 @@
 <html>
 <head>
     <title>Phantom Learning</title>
+    <link rel="stylesheet" href="site-fx.css" />
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #2e3244 0%, #36224b 100%);
+            font-family: "Segoe UI", system-ui, sans-serif;
+            background: radial-gradient(ellipse 120% 90% at 50% 0%, #1a1038 0%, #080616 42%, #02040a 100%);
             min-height: 100vh;
             margin: 0;
             padding: 0;
             display: flex;
+            position: relative;
         }
 
         .sidebar {
             position: fixed;
             left: 0;
             top: 0;
+            z-index: 1000;
             width: 80px;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
+            background: rgba(8, 12, 28, 0.55);
+            backdrop-filter: blur(14px) saturate(140%);
+            border-right: 1px solid rgba(34, 211, 238, 0.15);
             padding: 20px 10px;
             display: flex;
             flex-direction: column;
@@ -43,7 +47,7 @@
         }
 
         .sidebar-btn {
-            background: rgb(89, 134, 218);
+            background: linear-gradient(145deg, rgba(34, 211, 238, 0.35), rgba(139, 92, 246, 0.45));
             border: none;
             padding: 12px;
             font-size: 18px;
@@ -72,6 +76,8 @@
         }
 
         .main-content {
+            position: relative;
+            z-index: 1;
             margin-left: 100px;
             flex: 1;
             padding: 20px;
@@ -164,6 +170,14 @@
     </style>
 </head>
 <body>
+    <div class="fx-stage" aria-hidden="true">
+      <canvas id="fx-canvas" class="fx-canvas"></canvas>
+      <div class="fx-beam"></div>
+      <div class="fx-aurora"></div>
+      <div class="fx-grid"></div>
+      <div class="fx-vignette"></div>
+      <div class="fx-noise"></div>
+    </div>
     <!-- Sidebar Navigation -->
     <div class="sidebar" id="sidebar">
     </div>
@@ -193,6 +207,7 @@
         <div id="sections-container"> 
         </div>
     </div>
+    <script src="site-fx.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile@main/games.js"></script>
    </body>
    </html>

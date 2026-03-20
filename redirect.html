@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Phantom Learning</title>
     <meta name="robots" content="noindex" />
-    <style>
-      html, body { margin: 0; padding: 0; background: #020617; }
-    </style>
+    <link rel="stylesheet" href="style.css" />
     <script>
       (function() {
         var SHEET_LOG_URL = "https://script.google.com/macros/s/AKfycbw-ffrNNCT4Ci8rMtrrFCEmVPUqKvWmSaIwuFR4nGo9v695xGfzeiBN81sIHe75HJ23tg/exec";
@@ -83,6 +81,18 @@
       })();
     </script>
   </head>
-  <body></body>
+  <body class="redirect-splash-page">
+    <div class="fx-stage" aria-hidden="true">
+      <canvas id="fx-canvas" class="fx-canvas"></canvas>
+      <div class="fx-beam"></div>
+      <div class="fx-aurora"></div>
+      <div class="fx-grid"></div>
+      <div class="fx-vignette"></div>
+      <div class="fx-noise"></div>
+    </div>
+    <div class="bg-gradient"></div>
+    <p class="redirect-splash-text" role="status" aria-live="polite">Signing you in…</p>
+    <script src="site-fx.js"></script>
+  </body>
 </html>
 

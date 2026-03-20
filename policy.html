@@ -14,12 +14,13 @@
     <link rel="stylesheet" href="style.css" />
     <style>
       .policy-page {
+        position: relative;
+        z-index: 1;
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 1.5rem;
-        background: var(--body-bg);
       }
       .policy-card {
         width: 100%;
@@ -31,7 +32,7 @@
         box-shadow: var(--shadow-strong), 0 0 0 1px rgba(148, 163, 184, 0.08);
         color: var(--text);
       }
-      .policy-card .policies-title { margin: 0 0 1rem; font-size: 1.35rem; font-weight: 700; letter-spacing: 0.02em; color: #f7fafc; }
+      .policy-card .policies-title { margin: 0 0 1rem; font-family: "Sora", system-ui, sans-serif; font-size: 1.35rem; font-weight: 700; letter-spacing: 0.02em; line-height: 1.25; color: #f7fafc; }
       .policy-card .policies-text { margin: 0 0 1.5rem; font-size: 0.95rem; line-height: 1.6; color: var(--muted); }
       .policy-card .policies-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: flex-end; }
       .policy-card .policies-btn { padding: 0.6rem 1.25rem; font-size: 0.95rem; font-weight: 600; border-radius: 10px; border: none; cursor: pointer; text-decoration: none; transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease; display: inline-block; text-align: center; }
@@ -42,6 +43,15 @@
     </style>
   </head>
   <body>
+    <div class="fx-stage" aria-hidden="true">
+      <canvas id="fx-canvas" class="fx-canvas"></canvas>
+      <div class="fx-beam"></div>
+      <div class="fx-aurora"></div>
+      <div class="fx-grid"></div>
+      <div class="fx-vignette"></div>
+      <div class="fx-noise"></div>
+    </div>
+    <div class="bg-gradient"></div>
     <div class="policy-page">
       <div class="policy-card" role="main">
         <h1 id="policies-title" class="policies-title">Before you continue</h1>
@@ -64,5 +74,6 @@
         });
       })();
     </script>
+    <script src="site-fx.js"></script>
   </body>
 </html>

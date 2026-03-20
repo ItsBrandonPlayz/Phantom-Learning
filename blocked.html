@@ -9,12 +9,13 @@
     <link rel="stylesheet" href="style.css" />
     <style>
       .blocked-page {
+        position: relative;
+        z-index: 1;
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 1.5rem;
-        background: var(--body-bg);
         text-align: center;
       }
       .blocked-card {
@@ -29,8 +30,10 @@
       }
       .blocked-card h1 {
         margin: 0 0 0.75rem;
+        font-family: "Sora", system-ui, sans-serif;
         font-size: 1.5rem;
         font-weight: 700;
+        line-height: 1.25;
         color: #f7fafc;
       }
       .blocked-card p {
@@ -42,11 +45,21 @@
     </style>
   </head>
   <body>
+    <div class="fx-stage" aria-hidden="true">
+      <canvas id="fx-canvas" class="fx-canvas"></canvas>
+      <div class="fx-beam"></div>
+      <div class="fx-aurora"></div>
+      <div class="fx-grid"></div>
+      <div class="fx-vignette"></div>
+      <div class="fx-noise"></div>
+    </div>
+    <div class="bg-gradient"></div>
     <div class="blocked-page">
       <div class="blocked-card" role="main">
         <h1>Access restricted</h1>
         <p>Your account is not allowed to use Phantom Learning. If you believe this is an error, contact the site administrator.</p>
       </div>
     </div>
+    <script src="site-fx.js"></script>
   </body>
 </html>

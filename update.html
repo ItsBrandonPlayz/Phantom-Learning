@@ -14,12 +14,13 @@
     <link rel="stylesheet" href="style.css" />
     <style>
       .update-page {
+        position: relative;
+        z-index: 1;
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 1.5rem;
-        background: var(--body-bg);
       }
       .update-page .daily-summary-modal {
         max-height: 85vh;
@@ -34,6 +35,15 @@
     </style>
   </head>
   <body>
+    <div class="fx-stage" aria-hidden="true">
+      <canvas id="fx-canvas" class="fx-canvas"></canvas>
+      <div class="fx-beam"></div>
+      <div class="fx-aurora"></div>
+      <div class="fx-grid"></div>
+      <div class="fx-vignette"></div>
+      <div class="fx-noise"></div>
+    </div>
+    <div class="bg-gradient"></div>
     <div class="update-page">
       <div class="daily-summary-modal" role="dialog" aria-labelledby="daily-summary-title" aria-modal="true">
         <div class="daily-summary-header">
@@ -44,7 +54,7 @@
           <p class="daily-summary-date" id="daily-summary-date"></p>
           <div class="daily-summary-content">
             <p><strong>Changes today</strong></p>
-            <div id="daily-summary-changes">No new games or features added today.</div>
+            <div id="daily-summary-changes">No new updates today.</div>
             <p class="daily-summary-footer">Check back tomorrow for the next summary.</p>
           </div>
         </div>
@@ -69,12 +79,13 @@
             if (items && Array.isArray(items) && items.length) {
               changesEl.innerHTML = "<ul>" + items.map(function(s) { return "<li>" + String(s) + "</li>"; }).join("") + "</ul>";
             } else {
-              changesEl.textContent = "No new games or features added today.";
+              changesEl.textContent = "No new updates today.";
             }
           }
         };
         document.head.appendChild(s);
       })();
     </script>
+    <script src="site-fx.js"></script>
   </body>
 </html>

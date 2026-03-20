@@ -427,7 +427,7 @@ function openUgsGame(fileId) {
     })
     .catch(function() {
       popup.document.open();
-      popup.document.write("<html><head><title>Realtime Student Portal</title></head><body><p>Failed to load game. Check the console.</p></body></html>");
+      popup.document.write("<html><head><title>Realtime Student Portal</title></head><body><p>Failed to load content. Check the console.</p></body></html>");
       popup.document.close();
     });
 }
@@ -458,10 +458,252 @@ function addUgsGameButton(fileId) {
   var title = formatUgsTitle(fileId);
   if (title.length > 32) title = title.slice(0, 29) + "...";
   var btn = document.createElement("button");
-  btn.className = "game-button";
+  btn.type = "button";
+  btn.className = "game-button game-button-tile";
   btn.setAttribute("data-game-id", "ugs:" + fileId);
-  btn.innerHTML = "<span class=\"game-title\">" + title + "</span>\n            <span class=\"game-tagline\">Open in new tab.</span>";
+  btn.setAttribute("data-categories", inferUgsCategories(fileId));
+  btn.innerHTML =
+    '<span class="game-button-copy"><span class="game-title">' +
+    title +
+    '</span><span class="game-tagline">Open in new tab.</span></span>';
   gamesGrid.appendChild(btn);
+}
+
+/**
+ * Infer category tabs from the same title users see (formatUgsTitle) plus raw id
+ * for tokens like "nfs", "doom", "cl2048".
+ */
+function inferUgsCategories(fileId) {
+  var cats = [];
+  var title = formatUgsTitle(fileId || "");
+  var hay = (title + " " + (fileId || "")).toLowerCase();
+
+  function any(reList) {
+    for (var i = 0; i < reList.length; i++) {
+      if (reList[i].test(hay)) return true;
+    }
+    return false;
+  }
+
+  // Sports — checked before generic “ball” / “goal” elsewhere
+  if (
+    any([
+      /\bsoccer\b/,
+      /\brugby\b/,
+      /\btennis\b/,
+      /\bvolley\b/,
+      /\b(basketball|baseball|hockey|cricket)\b/,
+      /\bgolf\b/,
+      /miniature\s+golf/,
+      /\bputt\b/,
+      /\bfootball\b/,
+      /\bnfl\b/,
+      /\bnba\b/,
+      /\bnhl\b/,
+      /\bfifa\b/,
+      /\bmadden\b/,
+      /\bcrunch[\s-]?ball\b/i,
+      /\b8[\s-]*ball\b/,
+      /\bbilliard\b/,
+      /\b(snooker|pool)\b/,
+      /\bping[\s-]?pong\b/,
+      /\btable[\s-]?tennis\b/,
+      /\bboxing\b/,
+      /\bwrestle\b/,
+      /\bwwe\b/,
+      /\bmma\b/,
+      /\b(ufc|judo|karate|taekwondo)\b/,
+      /\bskate(board|ing)?\b/,
+      /\bski(ing)?\b|\bsurf(ing)?\b/,
+      /\bsnowboard\b/,
+      /\bolympics?\b/,
+      /\bworld[\s-]?cup\b/,
+      /\bstriker\b/,
+      /\bpenalt(y|ies)\b/,
+      /\bfreekick\b/,
+      /\bgolfer?\b/,
+      /\b1v1[\s-]?(tennis|soccer|lol)\b/,
+      /\b1[\s-]?on[\s-]?1[\s-]?(soccer|tennis)\b/,
+      /\b4th[\s-]?and[\s-]?goal\b/,
+      /\b2[\s-]?34[\s-]?player\b/i,
+      /touchdown|quarterback|linebacker/i,
+      /\bbowl(ing)?\b/,
+      /\bpinball\b/i,
+      /\bdarts?\b/,
+      /\bsports?\b/,
+      /\bfitness\b.*\b(game|sim)\b/i,
+      /\b(final\s+)?(four|march\s*madness)\b/i,
+      /\bmlb\b|\bmls\b/,
+      /\bgame[\s-]?(ball|sport)\b/i,
+      /\bball(?!oon)\b.*\b(pro|league|stars|blitz)\b/i,
+      /\bcurve[\s-]?ball\b/i,
+      /\b(homerun|home\s+run)\b/i,
+      /\bhoops?\b/,
+      /\bpuck\b/i,
+      /\bstick\s*(\&|and)\s*puck\b/i,
+    ])
+  ) {
+    cats.push("sports");
+  }
+
+  // Driving / vehicles
+  if (
+    any([
+      /\b(racing|\brace\b|racer|racers)\b/,
+      /\b(driv(e|ing)|driver)\b/,
+      /\bdrift\b/,
+      /\bcar\b.*\b(race|sim|crash|drift)\b|\b(race|drift).*[\s-]?car\b/i,
+      /\b(truck|rig)\b.*\b(race|sim|park|driver)\b|\b(semi|pickup)\b/i,
+      /\bkart\b/,
+      /\bgo[\s-]?kart\b/i,
+      /\bformula\b|\bf1\b|\bf[\s-]?zero\b/i,
+      /\brally\b/,
+      /\bnitro\b.*\b(boost|race)\b|\bctgpnitro\b/i,
+      /\b(park|parking)\b.*\b(car|mania|sim)\b|\b(car|truck)[\s-]?park/i,
+      /\btaxi\b.*\b(race|mania|crazy)\b|\bcrazy\s*taxi\b/i,
+      /\bmotor\s*cycle\b|\bmotorbike\b|\bmoto\s*(gp|race|x)\b/i,
+      /\bdirt[\s-]?bike\b|\bstunt[\s-]?bike\b/i,
+      /\bvehicle\b.*\b(sim|battle)\b/i,
+      /\b(nfs|nfscarbon|nfsmw|nfsu|nfsmostwanted|nfsunderground|nfsunleashed|nfsporsche)\b/i,
+      /need[\s-]?for[\s-]?speed/i,
+      /\bdemolition[\s-]?(derby|crash)|\bderby[\s-]?(crash|race)\b/i,
+      /\bhighway\b.*\b(race|rush|havoc)\b/i,
+      /\bgrand[\s-]?prix\b/,
+      /\bcircuit\b.*\b(race|gp)\b/i,
+      /\bforza\b|\bburnout\b|\basphalt\b|\bgrid\b.*\bautos?\b/i,
+      /\broad[\s-]?(rash|trip|fury)\b/i,
+      /\b(death|rally)[\s-]?chase\b/i,
+      /\bfuel\b.*\b(race|run)\b/i,
+      /\bturbo\b.*\b(race|drift)\b/i,
+      /\bcyber.*\b(ride|racing)\b|bungracing|cyberbun/i,
+      /\w+racing\b|\w+drift\b/,
+      /\bhorse[\s-]?(race|derby)\b/i,
+      /\batv\b.*\b(quad|race)\b/i,
+      /\bsled\b.*\b(race|run)\b/i,
+      /\btrain[\s-]?(sim|driving)\b/i,
+      /\btraffic\b.*\b(race|racer|run)\b/i,
+      /\bdonkey[\s-]?kong[\s-]?racing\b/i,
+      /\bmario[\s-]?kart\b/i,
+      /\b(rocket\s*league|wipeout|f[- ]?zero)\b/i,
+    ])
+  ) {
+    cats.push("driving");
+  }
+
+  // Shooters & combat shooters
+  if (
+    any([
+      /\b(shoot|shooter|shooting)\b/i,
+      /\b(bullet|bullets|ammo|magazine)\b/,
+      /\bsniper\b/,
+      /\bgun\b(?![\s-]?geon)/i,
+      /\b(pistol|rifle|shotgun|revolver|grenade|bazooka)\b/,
+      /\bfps\b|\bfirst[\s-]person\b.*\bshoot/i,
+      /\bdoom\b/,
+      /\bzombie(s)?\b.*\b(shoot|surviv|defense|hunt)\b|\b(shoot|hunt)\b.*\bzombie/i,
+      /\bweapon(s)?\b/,
+      /\bwarfare\b|\bcall[\s-]?of[\s-]?duty\b|\bcod\b.*\b(gun|war|ops)\b/i,
+      /\b(halo|quake|unreal)\b/,
+      /\bcounter[\s-]?strike|csgoclicker|\bcs\s*16\b|\bgo\s*fps\b/i,
+      /\bdeath[\s-]?(match|wish)\b/,
+      /\bspace[\s-]?(invad|shooter|battle)\b/,
+      /\binvad(er|ers)\b/,
+      /\bgalaga\b|\bdefender\b.*\barcade\b/i,
+      /\bturret\b|\btower[\s-]?(gun|blast)\b/i,
+      /\barch(er|ery)\b/,
+      /\bduck[\s-]?hunt\b/,
+      /\bmetal[\s-]?slug\b/,
+      /\bcontra\b/,
+      /\bbullet[\s-]?hell\b/,
+      /\blaser\b.*\b(shoot|blast)\b|\bblast(er|ers)\b.*\b(neo|space|alien)\b/i,
+      /\bpixel[\s-]?gun\b|\bfortnite\b|\bapex\b/i,
+      /\boverwatch\b|\bvalorant\b|\bpaladins?\b/i,
+      /\bstorm[\s-]?(trooper|rifle)\b/i,
+      /\bswat\b|\bpolice[\s-]?(shooter|snipe)\b/i,
+      /\bstar[\s-]?wars\b.*\b(shoot|battle|squadron)\b/i,
+      /\bred[\s-]?faction\b|\bdistrict\b.*\b187\b/i,
+      /\bno[\s-]?more[\s-]?heroes\b/i,
+      /\bniteclient\b|\bace[\s-]?combat\b|\bwar[\s-]?hawk\b/i,
+      /\b(last|rogue)[\s-]?(stand|company)\b.*\bshooter\b/i,
+      /\b500\s*caliber\b/i,
+      /\btank(s)?\b.*\b(blast|battle|war|1990|trouble)\b|\b(battle|blast)[\s-]?tank(s)?\b/i,
+      /\bwild[\s-]?guns\b|\bgun[\s-]?(star|smoke|point)\b/i,
+      /\boperation\b.*\b(wolf|cobra|thunder)\b/i,
+      /\btime[\s-]?crisis\b|\bpoint[\s-]?blank\b/i,
+      /\bsilent[\s-]?scope\b/,
+      /\bresident[\s-]?evil\b.*\b(shoot|gun|4|5|6)\b/i,
+      /\b(goldeneye|perfect\s+dark)\b/i,
+      /\bmetroid\b.*\b(prime)\b/i,
+      /\bkill[\s-]?(zone|switch)\b/i,
+      /\bmedal[\s-]?of[\s-]?honor\b|\bbattlefield\b|\b(bf|bc)2\b/i,
+      /\bteam[\s-]?(fortress|deathmatch)\b/i,
+      /\bunreal[\s-]?tournament\b/,
+      /\bquake\b|\b(doom|heretic|hexen)\b/,
+      /\b(left|right)\s*4\s*dead\b|\bl4d\b/i,
+      /\bplants\b.*\bzombies\b/,
+      /\bdefend\b.*\b(castle|nuts|tower)\b.*\b(shoot|bow|arrow)\b/i,
+    ])
+  ) {
+    cats.push("shooting");
+  }
+
+  // Arcade & casual: puzzle, platformer, idle, classic, adventure-lite
+  if (
+    any([
+      /\b(puzzle|tetris|2048|sudoku|minesweeper|nonogram|kakuro)\b/,
+      /\b(idle|tycoon|clicker|merge|incremental)\b/,
+      /\bmatch[\s-]?(3|three)\b|\bcandy\b.*\b(crush|saga)\b/i,
+      /\bbubble\b.*\b(shoot|pop|witch)\b/i,
+      /\b(breakout|arkanoid|pong)\b/,
+      /\b(snake|maze|labyrinth)\b/,
+      /\bpac[\s-]?man\b/,
+      /\bplatform(er)?\b|\b(runner|running)\b.*\b(game|endless)\b/i,
+      /\bendless\b.*\b(jump|run|fly|surf)\b/i,
+      /\bflappy\b|\bgeometry[\s-]?dash\b/i,
+      /\bphysics\b.*\b(sandbox|puzzle)\b/i,
+      /\bcut[\s-]?the[\s-]?rope\b/,
+      /\b(mario|sonic|zelda|pokemon|kirby|yoshi|luigi|peach)\b/,
+      /\bdonkey[\s-]?kong\b(?!\s*racing)/i,
+      /\bmega[\s-]?man\b|\bmetroid\b(?!\s*prime)/i,
+      /\bcastlevania\b|\bshovel\b|\bhollow\b.*\bknight\b/i,
+      /\bundertale\b|\bdeltarune\b|\bceleste\b/i,
+      /\borg(an)?\b.*\b(rhythm|sim)\b/i,
+      /\b(card|deck|solitaire|poker)\b(?!.*\bwar\b)/i,
+      /\bchess\b|\bcheckers\b/,
+      /\btower[\s-]?(def|defense|swap)\b|\btd\b(?!\s*wrest)/i,
+      /\blogical\b|\bbrain\b.*\b(tease|game)\b/i,
+      /\bobby\b|\bobstacle\b|\bparkour\b/,
+      /\bescape\b.*\b(room|game)\b|\b(room|point)[\s-]?(and|&)[\s-]?click\b/i,
+      /\badventure[\s-]?(time|quest)\b/i,
+      /\bdungeon\b|\broguelike\b|\brogue\b.*\b(like|lite)\b/i,
+      /\bsandbox\b|\bsim(ulator)?\b/,
+      /\bvisual[\s-]?novel\b|\bdoki[\s-]?doki\b/i,
+      /\bfarm(ville|er)?\b|\bharvest\b.*\bmoon\b/i,
+      /\bcooking\b.*\b(mama|fever|dash)\b/i,
+      /\bdress[\s-]?up\b|\bfashion\b.*\b(design|doll)\b/i,
+      /\b(angry|cut)[\s-]?birds?\b/i,
+      /\bminigame\b|\bparty\b.*\b(game|mix)\b/i,
+      /\bpinball\b|\b(claw|crane)\s*machine\b/i,
+      /\b(subway|temple)[\s-]?(run|surf)/i,
+      /\bcrossy\b|\bendless[\s-]?(runner|frog)/i,
+    ])
+  ) {
+    cats.push("arcade");
+  }
+
+  // Default bucket if nothing matched (browse still works under “All”)
+  if (cats.length === 0) cats.push("arcade");
+
+  cats.push("popular");
+  var seen = {};
+  var out = [];
+  for (var j = 0; j < cats.length; j++) {
+    if (!seen[cats[j]]) {
+      seen[cats[j]] = true;
+      out.push(cats[j]);
+    }
+  }
+  return out.join(" ");
 }
 
 var ugsList = typeof window.UGS_FILES !== "undefined" && window.UGS_FILES;
@@ -471,9 +713,23 @@ if (ugsList && Array.isArray(ugsList)) {
   });
 }
 
+var activeGameCategory = "all";
+
+function getButtonCategories(btn) {
+  var raw = (btn.getAttribute("data-categories") || "").trim();
+  if (!raw) return [];
+  return raw.split(/\s+/).filter(Boolean);
+}
+
+function buttonMatchesCategory(btn) {
+  if (activeGameCategory === "all") return true;
+  return getButtonCategories(btn).indexOf(activeGameCategory) !== -1;
+}
+
 function filterGamesBySearch() {
   var searchEl = document.getElementById("game-search");
   var countEl = document.getElementById("game-count");
+  var emptyHint = document.getElementById("game-empty-hint");
   var q = (searchEl && searchEl.value) ? searchEl.value.trim().toLowerCase() : "";
   var buttons = document.querySelectorAll(".games-grid .game-button");
   var total = buttons.length;
@@ -482,18 +738,37 @@ function filterGamesBySearch() {
     var titleEl = btn.querySelector(".game-title");
     var taglineEl = btn.querySelector(".game-tagline");
     var text = ((titleEl && titleEl.textContent) || "") + " " + ((taglineEl && taglineEl.textContent) || "");
-    var match = !q || text.toLowerCase().indexOf(q) !== -1;
-    btn.classList.toggle("search-hidden", !match);
-    if (match) visible++;
+    var searchMatch = !q || text.toLowerCase().indexOf(q) !== -1;
+    var catMatch = buttonMatchesCategory(btn);
+    var show = searchMatch && catMatch;
+    btn.classList.toggle("game-hidden", !show);
+    if (show) visible++;
   });
   if (countEl) {
-    if (q && visible !== total) {
-      countEl.textContent = "Showing " + visible + " of " + total.toLocaleString() + " games";
+    if ((q || activeGameCategory !== "all") && visible !== total) {
+      countEl.textContent = "Showing " + visible + " of " + total.toLocaleString() + " entries";
     } else {
-      countEl.textContent = total.toLocaleString() + " game" + (total === 1 ? "" : "s");
+      countEl.textContent = total.toLocaleString() + " entr" + (total === 1 ? "y" : "ies");
     }
   }
+  if (emptyHint) emptyHint.hidden = visible !== 0;
 }
+
+(function gameCategoryTabs() {
+  var tabs = document.querySelectorAll(".game-tab");
+  if (!tabs.length) return;
+  tabs.forEach(function(tab) {
+    tab.addEventListener("click", function() {
+      activeGameCategory = tab.getAttribute("data-category") || "all";
+      tabs.forEach(function(t) {
+        var on = t === tab;
+        t.classList.toggle("is-active", on);
+        t.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      filterGamesBySearch();
+    });
+  });
+})();
 
 var gameSearchEl = document.getElementById("game-search");
 if (gameSearchEl) {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="learn-portal-root">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,165 +9,43 @@
         document.write('<base href="' + location.origin + path + '">');
       })();
     </script>
-    <title>Phantom Learning</title>
+    <title>7th Grade Study Portal</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%234f46e5' rx='6'/><text x='16' y='22' font-size='18' text-anchor='middle' fill='white' font-family='system-ui,sans-serif' font-weight='bold'>P</text></svg>" />
-    <style>
-      * { box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
-      .learn-home { display: block; }
-      body {
-        margin: 0;
-        padding: 0;
-        min-height: 100vh;
-        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-        background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 50%, #bfdbfe 100%);
-        color: #1e3a8a;
-      }
-      .learn-header {
-        background: linear-gradient(90deg, #1d4ed8, #2563eb);
-        color: #fff;
-        padding: 20px 24px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: 0 2px 8px rgba(29, 78, 216, 0.3);
-      }
-      .learn-header h1 {
-        margin: 0;
-        font-size: 1.35rem;
-        font-weight: 600;
-      }
-      .learn-header .learn-subtitle {
-        margin: 2px 0 0 0;
-        font-size: 0.85rem;
-        font-weight: 400;
-        opacity: 0.9;
-      }
-      .show-btn {
-        padding: 8px 16px;
-        font-size: 14px;
-        font-weight: 600;
-        color: #1d4ed8;
-        background: #fff;
-        border: none;
-        border-radius: 8px;
-        text-decoration: none;
-        cursor: pointer;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-        transition: background 0.2s, transform 0.1s;
-      }
-      .show-btn:hover {
-        background: #eff6ff;
-        transform: translateY(-1px);
-      }
-      .learn-main {
-        max-width: 720px;
-        margin: 0 auto;
-        padding: 32px 24px;
-      }
-      .learn-hero {
-        text-align: center;
-        margin-bottom: 36px;
-      }
-      .learn-hero h2 {
-        font-size: 1.75rem;
-        color: #1e40af;
-        margin: 0 0 8px 0;
-      }
-      .learn-hero p {
-        color: #3b82f6;
-        margin: 0;
-        font-size: 1.05rem;
-      }
-      .subject-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 16px;
-      }
-      .subject-card {
-        background: #fff;
-        border: 1px solid #bfdbfe;
-        border-radius: 12px;
-        padding: 20px;
-        text-align: center;
-        text-decoration: none;
-        color: #1e40af;
-        font-weight: 600;
-        font-size: 1rem;
-        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
-        transition: box-shadow 0.2s, border-color 0.2s;
-      }
-      .subject-card:hover {
-        border-color: #93c5fd;
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
-      }
-      .subject-card span {
-        display: block;
-        font-size: 28px;
-        margin-bottom: 8px;
-      }
-      .learn-footer {
-        text-align: center;
-        margin-top: 40px;
-        padding-top: 24px;
-        border-top: 1px solid #bfdbfe;
-        color: #64748b;
-        font-size: 14px;
-      }
-      .subject-section {
-        display: none;
-        background: #fff;
-        border: 1px solid #bfdbfe;
-        border-radius: 12px;
-        padding: 28px 24px;
-        margin-bottom: 28px;
-        box-shadow: 0 2px 12px rgba(37, 99, 235, 0.08);
-      }
-      .subject-section.is-open {
-        display: block;
-      }
-      body.subject-open .learn-home {
-        display: none;
-      }
-      .subject-section h2 {
-        color: #1e40af;
-        margin: 0 0 16px 0;
-        font-size: 1.5rem;
-      }
-      .subject-section .back-link {
-        display: inline-block;
-        margin-bottom: 16px;
-        font-size: 14px;
-        color: #2563eb;
-        text-decoration: none;
-      }
-      .subject-section .back-link:hover {
-        text-decoration: underline;
-      }
-      .subject-section p, .subject-section li {
-        color: #334155;
-        line-height: 1.6;
-        margin: 0 0 12px 0;
-      }
-      .subject-section ul {
-        margin: 0 0 16px 0;
-        padding-left: 24px;
-      }
-      .subject-section .key-term {
-        font-weight: 600;
-        color: #1e40af;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
-    <header class="learn-header">
-      <div>
-        <h1>Phantom Learning</h1>
-        <p class="learn-subtitle">7th Grade Learning Portal</p>
-      </div>
-      <a href="main.html" class="show-btn" id="show-btn">Show</a>
-    </header>
-
+  <body class="learn-portal-page">
+    <div class="fx-stage" aria-hidden="true">
+      <canvas id="fx-canvas" class="fx-canvas"></canvas>
+      <div class="fx-beam"></div>
+      <div class="fx-aurora"></div>
+      <div class="fx-grid"></div>
+      <div class="fx-vignette"></div>
+      <div class="fx-noise"></div>
+    </div>
+    <div class="bg-gradient"></div>
+    <div class="shell app-shell learn-app-shell learn-decoy-shell">
+      <aside class="app-sidebar learn-sidebar" aria-label="Study portal">
+        <div class="sidebar-brand learn-sidebar-brand">
+          <span class="sidebar-brand-mark learn-brand-secret" data-href="main.html" title="Study home" role="button" tabindex="0">P</span>
+          <a class="sidebar-brand-name sidebar-brand-name-link" href="learn.html">Study Portal</a>
+        </div>
+        <nav class="sidebar-nav">
+          <span class="sidebar-nav-heading">This week</span>
+          <a class="sidebar-link is-current" href="learn.html">Subject study</a>
+          <a class="sidebar-link sidebar-link-decoy" href="#">Practice log</a>
+          <a class="sidebar-link sidebar-link-decoy" href="#">Class standards</a>
+        </nav>
+        <p class="sidebar-blurb">Middle school study guides and practice — stay on task and use school resources.</p>
+      </aside>
+      <div class="app-stage">
+        <header class="app-topbar learn-topbar">
+          <div>
+            <h1 class="learn-topbar-title learn-decoy-title">7th grade study resources</h1>
+            <p class="learn-subtitle">Standards-based notes and practice — for class use only</p>
+          </div>
+          <span class="learn-session-pill" aria-hidden="true">Study mode</span>
+        </header>
+        <div class="app-scroll learn-scroll">
     <main class="learn-main">
       <div class="learn-home">
         <div class="learn-hero">
@@ -244,6 +122,10 @@
         Phantom Learning · 7th Grade Learning Portal · Educational resources for middle school.
       </footer>
     </main>
+        </div>
+      </div>
+    </div>
+    <script defer src="site-fx.js"></script>
     <script>
       (function() {
         var sections = document.querySelectorAll(".subject-section");
@@ -275,6 +157,40 @@
             closeSubject();
           });
         });
+
+        /* Return to workspace: hold the P mark ~0.75s (hidden from casual teacher view). */
+        (function secretReturn() {
+          var el = document.querySelector(".learn-brand-secret");
+          if (!el) return;
+          var href = el.getAttribute("data-href") || "main.html";
+          var timer = null;
+          function arm() {
+            clearTimeout(timer);
+            el.classList.add("learn-secret-armed");
+            timer = setTimeout(function() {
+              window.location.href = href;
+            }, 750);
+          }
+          function disarm() {
+            clearTimeout(timer);
+            timer = null;
+            el.classList.remove("learn-secret-armed");
+          }
+          el.addEventListener("mousedown", arm);
+          el.addEventListener("touchstart", arm, { passive: true });
+          ["mouseup", "mouseleave", "touchend", "touchcancel", "blur"].forEach(function(ev) {
+            el.addEventListener(ev, disarm);
+          });
+          el.addEventListener("keydown", function(e) {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              arm();
+            }
+          });
+          el.addEventListener("keyup", function(e) {
+            if (e.key === "Enter" || e.key === " ") disarm();
+          });
+        })();
       })();
     </script>
   </body>

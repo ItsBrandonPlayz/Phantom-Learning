@@ -88,78 +88,139 @@
           setInterval(checkForUpdate, 60000);
         });
 
-        // Safety: never keep the page hidden forever
         setTimeout(function() { document.documentElement.classList.remove("block-check-pending"); }, 3000);
       })();
     </script>
   </head>
   <body class="loading-active">
-    <div id="loading-screen" class="loading-screen">
+    <div class="fx-stage" aria-hidden="true">
+      <canvas id="fx-canvas" class="fx-canvas"></canvas>
+      <div class="fx-beam"></div>
+      <div class="fx-aurora"></div>
+      <div class="fx-grid"></div>
+      <div class="fx-vignette"></div>
+      <div class="fx-noise"></div>
+    </div>
+    <div id="loading-screen" class="loading-screen loading-screen-v2">
       <div class="loading-screen-bg"></div>
+      <div class="loading-screen-glow loading-screen-glow-a" aria-hidden="true"></div>
+      <div class="loading-screen-glow loading-screen-glow-b" aria-hidden="true"></div>
+      <div class="loading-screen-noise" aria-hidden="true"></div>
       <div class="loading-screen-center">
         <div class="loading-phase" id="loading-phase">
-          <div class="loading-spinner"></div>
-          <p class="loading-text">Loading</p>
-          <div class="loading-dots"><span></span><span></span><span></span></div>
+          <div class="loading-orbit" aria-hidden="true">
+            <div class="loading-orbit-core"></div>
+            <div class="loading-orbit-ring loading-orbit-ring-1"></div>
+            <div class="loading-orbit-ring loading-orbit-ring-2"></div>
+          </div>
+          <p class="loading-kicker">Phantom</p>
+          <p class="loading-headline">Calibrating your workspace</p>
+          <div class="loading-progress-track">
+            <div class="loading-progress-fill"></div>
+          </div>
+          <p class="loading-footnote">Session lock · edge sync</p>
         </div>
         <div class="connected-phase" id="connected-phase" hidden>
-          <span class="connected-text">Connected</span>
+          <div class="connected-check" aria-hidden="true">
+            <svg class="connected-check-svg" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2" class="connected-check-ring" />
+              <path class="connected-check-mark" d="M14 24l8 8 12-16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+          <span class="connected-text">You’re in</span>
           <div class="connected-line"></div>
         </div>
       </div>
     </div>
     <div class="bg-gradient"></div>
-    <main class="shell">
-      <header class="shell-header">
-        <div class="traffic-lights">
-          <span class="light red"></span>
-          <span class="light yellow"></span>
-          <span class="light green"></span>
-        </div>
-        <div class="shell-title" id="shell-title">Mini Browser</div>
-        <div id="signed-in-bar" class="signed-in-bar" style="display:none">
-          <span id="signed-in-email" class="signed-in-email"></span>
-          <a href="index.html" id="sign-out-link" class="sign-out-link">Sign out</a>
-        </div>
-        <a href="learn.html" class="hide-btn" id="hide-btn" aria-label="Hide" title="Hide">Hide</a>
-      </header>
+    <main class="shell app-shell">
+      <aside class="app-sidebar" aria-label="Site">
+        <a class="sidebar-brand" href="main.html">
+          <span class="sidebar-brand-mark">P</span>
+          <span class="sidebar-brand-name">Phantom</span>
+        </a>
+        <p class="sidebar-blurb">Your workspace — open Study view if an adult walks by; hold the <strong>P</strong> on that page to return.</p>
+      </aside>
 
-      <section class="content content-games">
-        <h1 class="title title-phantom">Phantom Learning</h1>
-        <p class="tagline-intro">This is <span class="tagline-word" id="tagline-word" aria-live="polite">trustworthy</span></p>
-        <div id="game-area" class="game-area" aria-hidden="true">
-          <p class="subtitle">Click a game to open it in an about:blank window.</p>
-          <label for="game-search" class="search-label">Search games</label>
-          <input
-            type="search"
-            id="game-search"
-            class="game-search"
-            placeholder="Type to filter games…"
-            autocomplete="off"
-            aria-label="Search games"
-          />
-          <p id="game-count" class="game-count" aria-live="polite"></p>
-          <div class="games-grid">
-            <button
-              class="game-button"
-              data-game-id="dodge"
-            >
-              <span class="game-title">Square Dodge</span>
-              <span class="game-tagline">Move left &amp; right, avoid falling blocks.</span>
-            </button>
-            <button
-              class="game-button"
-              data-game-id="clicker"
-            >
-              <span class="game-title">Circle Clicker</span>
-              <span class="game-tagline">Click the target as many times as you can.</span>
-            </button>
+      <div class="app-stage">
+        <header class="app-topbar">
+          <div class="topbar-pill">
+            <span class="topbar-dot" aria-hidden="true"></span>
+            <span class="topbar-label">Live session</span>
+          </div>
+          <div class="shell-header-actions">
+            <div id="signed-in-bar" class="signed-in-bar" style="display:none">
+              <span id="signed-in-email" class="signed-in-email"></span>
+              <a href="index.html" id="sign-out-link" class="sign-out-link">Sign out</a>
+            </div>
+            <div class="topbar-study-block">
+              <a href="learn.html" class="hide-btn" id="hide-btn" aria-label="Switch to study view" title="Opens a study-style page">Study view</a>
+              <p class="study-mode-hint">
+                <strong>Study page:</strong> looks like homework. To get back here, press and hold the purple <strong>P</strong> badge (~1 sec) — not the words “Study Portal”.
+              </p>
+            </div>
+          </div>
+        </header>
+
+        <div class="app-scroll">
+          <div class="hero-mast">
+            <div class="hero-mast-copy">
+              <p class="hero-eyebrow">You’re in</p>
+              <h1 class="title title-phantom">Phantom Learning</h1>
+              <p class="tagline-intro">This is <span class="tagline-word" id="tagline-word" aria-live="polite">trustworthy</span></p>
+            </div>
+            <div class="hero-mast-visual" aria-hidden="true">
+              <div class="hero-orb-wrap">
+                <div class="hero-orb"></div>
+                <div class="hero-orb-ring"></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="game-area" class="game-area" aria-hidden="true">
+            <p class="subtitle">Choose an item below — it opens in a new window.</p>
+            <label for="game-search" class="search-label">Filter directory</label>
+            <input
+              type="search"
+              id="game-search"
+              class="game-search"
+              placeholder="Search titles and descriptions…"
+              autocomplete="off"
+              aria-label="Filter directory"
+            />
+            <p id="game-count" class="game-count" aria-live="polite"></p>
+            <div class="game-category-tabs" role="tablist" aria-label="Directory categories">
+              <button type="button" class="game-tab is-active" role="tab" aria-selected="true" data-category="all">All</button>
+              <button type="button" class="game-tab" role="tab" aria-selected="false" data-category="popular">Most popular</button>
+              <button type="button" class="game-tab" role="tab" aria-selected="false" data-category="shooting">Shooter</button>
+              <button type="button" class="game-tab" role="tab" aria-selected="false" data-category="driving">Car &amp; driving</button>
+              <button type="button" class="game-tab" role="tab" aria-selected="false" data-category="sports">Sports</button>
+              <button type="button" class="game-tab" role="tab" aria-selected="false" data-category="arcade">Arcade</button>
+            </div>
+            <p class="game-empty-hint" id="game-empty-hint" hidden>No entries match this tab — try another section or clear the search.</p>
+            <div class="games-grid games-bento" id="games-grid">
+              <button class="game-button game-button-hero" type="button" data-game-id="dodge" data-categories="popular arcade">
+                <span class="game-button-icon game-ico-dodge" aria-hidden="true"></span>
+                <span class="game-button-copy">
+                  <span class="game-title">Square Dodge</span>
+                  <span class="game-tagline">Move left &amp; right, avoid falling blocks.</span>
+                </span>
+              </button>
+              <button class="game-button game-button-side" type="button" data-game-id="clicker" data-categories="popular arcade">
+                <span class="game-button-icon game-ico-click" aria-hidden="true"></span>
+                <span class="game-button-copy">
+                  <span class="game-title">Circle Clicker</span>
+                  <span class="game-tagline">Tap the target fast.</span>
+                </span>
+              </button>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
     </main>
 
     <script src="ugs-games-list.js"></script>
+    <script src="site-fx.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
