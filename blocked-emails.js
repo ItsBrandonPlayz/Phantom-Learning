@@ -7,7 +7,6 @@ window.BLOCKED_EMAILS = [
   "jpando31@krhs.net",
   "reldred31@krhs.net",
   "chickenbottom31@krhs.net",
-  "marcusalleyne20134832@gmail.com",
   "rmolinet31@krhs.net",
   "gweir31@krhs.net",
   "mbiron31@krhs.net"
